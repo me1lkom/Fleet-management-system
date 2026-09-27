@@ -21,7 +21,7 @@ public interface CarRepository {
     List<Car> filterByBodyType(BodyType bodyType);
     List<Car> filterByTransmission(Transmission transmission);
     List<Car> sortByYear();
-    List<Car> soreByMileage();
+    List<Car> sortByMileage();
 
     Car update(Car car);
 
