@@ -124,77 +124,18 @@ public class CarMenu {
 
         System.out.print("Модель: ");
         String model = scanner.nextLine().trim();
+        Transmission transmission = readTransmission();
 
-        System.out.println("Выберите коробку передач:");
-        System.out.println("1. AUTOMATIC");
-        System.out.println("2. MANUAL");
-
-        String transmissionChoice = scanner.nextLine().trim();
-
-        Transmission transmission;
-
-        switch (transmissionChoice) {
-            case "1":
-                transmission = Transmission.AUTOMATIC;
-                break;
-            case "2":
-                transmission = Transmission.MANUAL;
-                break;
-            default:
-                throw new IllegalArgumentException("Неизвестный тип коробки передач.");
-        }
-
-        System.out.print("Год: ");
-        int year = Integer.parseInt(scanner.nextLine());
+        int year = readInt("Год: ");
 
         System.out.print("Госномер: ");
         String licensePlate = scanner.nextLine().trim();
 
-        System.out.println("Выберите тип кузова:");
-        System.out.println("1. HATCHBACK");
-        System.out.println("2. SEDAN");
+        BodyType bodyType = readBodyType();
 
-        String bodyTypeChoice = scanner.nextLine().trim();
+        int mileage = readInt("Пробег: ");
 
-        BodyType bodyType;
-
-        switch (bodyTypeChoice) {
-            case "1":
-                bodyType = BodyType.HATCHBACK;
-                break;
-            case "2":
-                bodyType = BodyType.SEDAN;
-                break;
-            default:
-                throw new IllegalArgumentException("Неизвестный тип кузова.");
-        }
-
-        System.out.print("Пробег: ");
-        int mileage = Integer.parseInt(scanner.nextLine());
-
-
-        System.out.println("Выберите статус авто:");
-        System.out.println("1. AVAILABLE");
-        System.out.println("2. IN_USE");
-        System.out.println("3. MAINTENANCE");
-
-        String carStatusChoice = scanner.nextLine().trim();
-
-        CarStatus carStatus;
-
-        switch (carStatusChoice) {
-            case "1":
-                carStatus = CarStatus.AVAILABLE;
-                break;
-            case "2":
-                carStatus = CarStatus.IN_USE;
-                break;
-            case "3":
-                carStatus = CarStatus.MAINTENANCE;
-                break;
-            default:
-                throw new IllegalArgumentException("Неизвестный статус.");
-        }
+        CarStatus carStatus = readCarStatus();
 
         Car car = new Car(
                 null,
@@ -217,8 +158,7 @@ public class CarMenu {
     private void findCarById() {
         System.out.println("\n=== ПОИСК АВТО ПО ID ===");
 
-        System.out.println("Введите id: ");
-        Long carId = Long.parseLong(scanner.nextLine().trim());
+        Long carId = readLong("Введите ID: ");
 
         Car findCar = service.getCarById(carId);
 
@@ -285,8 +225,7 @@ public class CarMenu {
     private void deleteCar() {
         System.out.println("\n=== УДАЛЕНИЕ АВТО ПО ID ===");
 
-        System.out.println("Введите id: ");
-        Long carId = Long.parseLong(scanner.nextLine().trim());
+        Long carId = readLong("Введите ID: ");
 
         service.deleteCarById(carId);
 
@@ -336,30 +275,9 @@ public class CarMenu {
     }
 
     private void filterCarsByStatus() {
-        System.out.println("\n=== ОТФИЛЬСТРОВАННЫЙ ПО СТАТУСУ СПИСОК АВТОМОБИЛЕЙ ===");
+        System.out.println("\n=== ФИЛЬТРАЦИЯ ПО СТАТУСУ ===");
 
-        System.out.println("Выберите статус для фильтрации авто:");
-        System.out.println("1. AVAILABLE");
-        System.out.println("2. IN_USE");
-        System.out.println("3. MAINTENANCE");
-
-        String carStatusChoice = scanner.nextLine().trim();
-
-        CarStatus carStatus;
-
-        switch (carStatusChoice) {
-            case "1":
-                carStatus = CarStatus.AVAILABLE;
-                break;
-            case "2":
-                carStatus = CarStatus.IN_USE;
-                break;
-            case "3":
-                carStatus = CarStatus.MAINTENANCE;
-                break;
-            default:
-                throw new IllegalArgumentException("Неизвестный статус.");
-        }
+        CarStatus carStatus = readCarStatus();
 
         List<Car> cars = service.filterCarsByStatus(carStatus);
 
@@ -374,26 +292,9 @@ public class CarMenu {
     }
 
     private void filterCarsByBodyType() {
-        System.out.println("\n=== ОТФИЛЬСТРОВАННЫЙ ПО ТИПУ КУЗОВА СПИСОК АВТОМОБИЛЕЙ ===");
+        System.out.println("\n=== ФИЛЬТРАЦИЯ ПО ТИПУ КУЗОВА ===");
 
-        System.out.println("Выберите тип кузова:");
-        System.out.println("1. HATCHBACK");
-        System.out.println("2. SEDAN");
-
-        String bodyTypeChoice = scanner.nextLine().trim();
-
-        BodyType bodyType;
-
-        switch (bodyTypeChoice) {
-            case "1":
-                bodyType = BodyType.HATCHBACK;
-                break;
-            case "2":
-                bodyType = BodyType.SEDAN;
-                break;
-            default:
-                throw new IllegalArgumentException("Неизвестный тип кузова.");
-        }
+        BodyType bodyType = readBodyType();
 
         List<Car> cars = service.filterCarsByBodyType(bodyType);
 
@@ -408,26 +309,9 @@ public class CarMenu {
     }
 
     private void filterCarsByTransmission() {
-        System.out.println("\n=== ОТФИЛЬСТРОВАННЫЙ ПО КПП СПИСОК АВТОМОБИЛЕЙ ===");
+        System.out.println("\n=== ФИЛЬТРАЦИЯ ПО КПП ===");
 
-        System.out.println("Выберите коробку передач:");
-        System.out.println("1. AUTOMATIC");
-        System.out.println("2. MANUAL");
-
-        String transmissionChoice = scanner.nextLine().trim();
-
-        Transmission transmission;
-
-        switch (transmissionChoice) {
-            case "1":
-                transmission = Transmission.AUTOMATIC;
-                break;
-            case "2":
-                transmission = Transmission.MANUAL;
-                break;
-            default:
-                throw new IllegalArgumentException("Неизвестный тип коробки передач.");
-        }
+        Transmission transmission = readTransmission();
 
         List<Car> cars = service.filterCarsByTransmission(transmission);
 
@@ -440,7 +324,6 @@ public class CarMenu {
             System.out.println(car);
         }
     }
-
     private void sortCars() {
         while (true) {
 
@@ -514,10 +397,9 @@ public class CarMenu {
 
         System.out.println("\n=== ИЗМЕНЕНИЕ АВТОМОБИЛЯ ===");
 
-        System.out.print("Введите ID автомобиля: ");
-        Long id = Long.parseLong(scanner.nextLine().trim());
+        Long carId = readLong("Введите ID: ");
 
-        Car car = service.getCarById(id);
+        Car car = service.getCarById(carId);
 
         System.out.println("\nТекущие данные:");
         System.out.println(car);
@@ -648,11 +530,98 @@ public class CarMenu {
         System.out.println("Файл: exports/cars.csv");
     }
 
-    public static void main(String[] args) {
-        CarService service = new CarService(new JdbcCarRepository());
-        Scanner scanner = new Scanner(System.in);
+    private int readInt(String message) {
+        while (true) {
+            System.out.print(message);
 
-        CarMenu menu = new CarMenu(service, scanner);
-        menu.run();
+            String input = scanner.nextLine().trim();
+
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Введите целое число.");
+            }
+        }
+    }
+
+    private Transmission readTransmission() {
+        while (true) {
+            System.out.println("Выберите коробку передач:");
+            System.out.println("1. AUTOMATIC");
+            System.out.println("2. MANUAL");
+
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                case "1":
+                    return Transmission.AUTOMATIC;
+
+                case "2":
+                    return Transmission.MANUAL;
+
+                default:
+                    System.out.println("Неизвестный тип коробки передач. Попробуйте ещё раз.");
+            }
+        }
+    }
+
+    private BodyType readBodyType() {
+        while (true) {
+            System.out.println("Выберите тип кузова:");
+            System.out.println("1. HATCHBACK");
+            System.out.println("2. SEDAN");
+
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                case "1":
+                    return BodyType.HATCHBACK;
+
+                case "2":
+                    return BodyType.SEDAN;
+
+                default:
+                    System.out.println("Неизвестный тип кузова. Попробуйте ещё раз.");
+            }
+        }
+    }
+
+    private CarStatus readCarStatus() {
+        while (true) {
+            System.out.println("Выберите статус:");
+            System.out.println("1. AVAILABLE");
+            System.out.println("2. IN_USE");
+            System.out.println("3. MAINTENANCE");
+
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                case "1":
+                    return CarStatus.AVAILABLE;
+
+                case "2":
+                    return CarStatus.IN_USE;
+
+                case "3":
+                    return CarStatus.MAINTENANCE;
+
+                default:
+                    System.out.println("Неизвестный статус. Попробуйте ещё раз.");
+            }
+        }
+    }
+
+    private Long readLong(String message) {
+        while (true) {
+            System.out.print(message);
+
+            String input = scanner.nextLine().trim();
+
+            try {
+                return Long.parseLong(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Введите целое число.");
+            }
+        }
     }
 }
