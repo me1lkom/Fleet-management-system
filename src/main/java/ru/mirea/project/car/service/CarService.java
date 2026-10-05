@@ -10,6 +10,11 @@ import ru.mirea.project.car.repository.CarRepository;
 
 import java.util.List;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class CarService {
 
     private final CarRepository carRepository;
@@ -87,7 +92,6 @@ public class CarService {
         return carRepository.sortByMileage();
     }
 
-
     public Car updateCar(Car car) {
 
         if (car.getId() == null) {
@@ -132,5 +136,41 @@ public class CarService {
         }
 
         carRepository.deleteById(id);
+    }
+
+    public void exportCarsToCsv() {
+        List<Car> cars = carRepository.findAll();
+
+        Path exportDirectory = Path.of("exports");
+        Path filePath = exportDirectory.resolve("cars.csv");
+
+        try {
+            Files.createDirectories(exportDirectory);
+
+            try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
+
+                writer.write("ID,Марка,Модель,КПП,Год,Госномер,Кузов,Статус,Пробег");
+                writer.newLine();
+
+                for (Car car : cars) {
+                    writer.write(
+                            car.getId() + "," +
+                                    car.getBrand() + "," +
+                                    car.getModel() + "," +
+                                    car.getTransmission().name() + "," +
+                                    car.getYear() + "," +
+                                    car.getLicensePlate() + "," +
+                                    car.getBodyType().name() + "," +
+                                    car.getStatus().name() + "," +
+                                    car.getMileage()
+                    );
+
+                    writer.newLine();
+                }
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка экспорта автомобилей в CSV.", e);
+        }
     }
 }

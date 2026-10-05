@@ -37,6 +37,7 @@ public class CarMenu {
             System.out.println("8. Удалить автомобиль");
             System.out.println("9. Фильтрация");
             System.out.println("10. Сортировка");
+            System.out.println("11. Экспорт в CVS");
             System.out.println("0. Вернуться в главное меню");
 
             System.out.print("\nВыберите действие: ");
@@ -79,6 +80,9 @@ public class CarMenu {
                         break;
                     case "10":
                         sortCars();
+                        break;
+                    case "11":
+                        exportCars();
                         break;
 
                     default:
@@ -635,6 +639,14 @@ public class CarMenu {
         System.out.println(updatedCar);
     }
 
+    private void exportCars() {
+        System.out.println("\n=== ЭКСПОРТ АВТОМОБИЛЕЙ ===");
+
+        service.exportCarsToCsv();
+
+        System.out.println("Автомобили успешно экспортированы.");
+        System.out.println("Файл: exports/cars.csv");
+    }
 
     public static void main(String[] args) {
         CarService service = new CarService(new JdbcCarRepository());
