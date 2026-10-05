@@ -8,10 +8,9 @@ import ru.mirea.project.user.UserMenu;
 import ru.mirea.project.user.repository.JdbcUserRepository;
 import ru.mirea.project.user.service.UserService;
 
-// Эти импорты добавишь, когда будут готовы request-классы
-// import ru.mirea.project.request.RequestMenu;
-// import ru.mirea.project.request.repository.JdbcRequestRepository;
-// import ru.mirea.project.request.service.RequestService;
+import ru.mirea.project.request.RequestMenu;
+import ru.mirea.project.request.repository.JdbcRequestRepository;
+import ru.mirea.project.request.service.RequestService;
 
 import java.util.Scanner;
 
@@ -36,11 +35,15 @@ public class Main {
                 new UserMenu(userService, scanner);
 
         // Заявки
-        // RequestService requestService =
-        //         new RequestService(new JdbcRequestRepository());
+        RequestService requestService =
+                new RequestService(
+                        new JdbcRequestRepository(),
+                        new JdbcUserRepository(),
+                        new JdbcCarRepository()
+                );
 
-        // RequestMenu requestMenu =
-        //         new RequestMenu(requestService, scanner);
+        RequestMenu requestMenu =
+                new RequestMenu(requestService, scanner);
 
         while (true) {
 
@@ -69,11 +72,7 @@ public class Main {
                     break;
 
                 case "3":
-                    System.out.println(
-                            "Модуль заявок пока не подключён."
-                    );
-                    // Когда будет готов:
-                    // requestMenu.run();
+                    requestMenu.run();
                     break;
 
                 case "0":
