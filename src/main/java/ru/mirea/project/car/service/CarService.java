@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static ru.mirea.project.car.enums.CarStatus.AVAILABLE;
+
 public class CarService {
 
     private final CarRepository carRepository;
@@ -168,4 +170,28 @@ public class CarService {
             throw new RuntimeException("Ошибка экспорта автомобилей в CSV.", e);
         }
     }
+
+
+    public record CarStatistics(
+            int total,
+            long avalible,
+            long maintanance
+    ) {}
+
+    public CarStatistics getStatistics(){
+        List<Car> cars = getAllCars();
+
+        int allCars = cars.size();
+
+        long avalibleCar = cars.stream()
+                .filter(car -> car.getStatus() == CarStatus.AVAILABLE)
+                .count();
+
+        long maintananceCar = cars.stream()
+                .filter(car -> car.getStatus() == CarStatus.MAINTENANCE)
+                .count();
+
+        return new CarStatistics(allCars, avalibleCar, maintananceCar);
+    }
+
 }

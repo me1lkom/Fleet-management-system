@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.mirea.project.fx.OverviewController"
+      spacing="16"
+>
+    <Label text="Статистика" />
+    <HBox>
+        <Button onAction="#handleRefreshStatistic" text="Обновить" />
+        <HBox>
+            <Label text="Экспорт"/>
+            <Button onAction="#handleDownloadCars" text="Автомобили" />
+            <Button onAction="#handleDownloadUsers" text="Пользователи" />
+            <Button onAction="#handleDownloadRequests" text="Заявки" />
+        </HBox>
+    </HBox>
+    <GridPane
+        hgap="16" vgap="16"
+    >
+        <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" spacing="16">
+            <Label text="Всего автомобилей"/>
+            <Label fx:id="totalCarLabel" text="–"/>
+        </VBox>
+
+        <VBox GridPane.columnIndex="1" GridPane.rowIndex="0" spacing="16">
+            <Label text="Доступно автомобилей"/>
+            <Label fx:id="availableCarLabel" text="–"/>
+        </VBox>
+
+        <VBox GridPane.columnIndex="2" GridPane.rowIndex="0" spacing="16">
+            <Label text="На обслуживании"/>
+            <Label fx:id="maintenanceCarLabel" text="–"/>
+        </VBox>
+
+        <VBox GridPane.columnIndex="0" GridPane.rowIndex="1" spacing="16">
+            <Label text="Всего пользователей"/>
+            <Label fx:id="totalUserLabel" text="–"/>
+        </VBox>
+
+        <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="16">
+            <Label text="Всего заявок"/>
+            <Label fx:id="totalRequestsLabel" text="–"/>
+        </VBox>
+
+        <VBox GridPane.columnIndex="2" GridPane.rowIndex="1" spacing="16">
+            <Label text="Активные заявки"/>
+            <Label fx:id="activeRequestsLabel" text="–"/>
+        </VBox>
+    </GridPane>
+</VBox>
+

@@ -12,6 +12,12 @@
          tabClosingPolicy="UNAVAILABLE">
 
     <tabs>
+        <Tab text="Обзор">
+            <content>
+                <fx:include source="overview.fxml" />
+            </content>
+        </Tab>
+
         <Tab text="Автомобили">
             <content>
                 <fx:include source="cars.fxml"/>
