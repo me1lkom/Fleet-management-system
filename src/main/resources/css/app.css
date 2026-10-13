@@ -1,0 +1,86 @@
+.stat-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 20;
+}
+
+.stat-value {
+    -fx-font-size: 30px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #26364a;
+}
+
+.overview-page {
+    -fx-background-color: #f3f5f9;
+    -fx-padding: 24;
+}
+
+.button {
+    -fx-background-color: #3e70e7;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 10 16;
+}
+
+.button:hover {
+    -fx-background-color: #1d4ed8;
+}
+
+.text-field {
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 10 16;
+}
+
+.combo-box {
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+}
+
+.page {
+    -fx-background-color: #f3f5f9;
+    -fx-padding: 24;
+}
+
+.page-title{
+    -fx-font-size: 30px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #26364a;
+}
+
+.title-container {
+    -fx-padding: 10 16;
+}
+
+.under-title,
+.select-title
+{
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #415675;
+}
+
+.crud-container {
+    -fx-padding: 10 16;
+}
+
+.functions {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 20;
+}
+
+.function-title,
+.table-title
+{
+    -fx-font-size: 20px;
+    -fx-font-weight: 400;
+    -fx-text-fill: #26364a;
+}
+
+.table-container {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 20;
+}
