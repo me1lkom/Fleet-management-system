@@ -8,6 +8,7 @@ import ru.mirea.project.car.exception.DuplicateLicensePlateException;
 import ru.mirea.project.car.model.Car;
 import ru.mirea.project.car.repository.CarRepository;
 
+import java.io.File;
 import java.util.List;
 
 import java.io.BufferedWriter;
@@ -135,16 +136,15 @@ public class CarService {
         carRepository.deleteById(id);
     }
 
-    public void exportCarsToCsv() {
-        List<Car> cars = carRepository.findAll();
+    public void exportCarsToCsv(File file) {
+        exportCarsToCsv(getAllCars(), file);
+    }
 
-        Path exportDirectory = Path.of("exports");
-        Path filePath = exportDirectory.resolve("cars.csv");
+    public void exportCarsToCsv(List<Car> cars, File file) {
+        Path savedFile = file.toPath();
 
         try {
-            Files.createDirectories(exportDirectory);
-
-            try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
+            try (BufferedWriter writer = Files.newBufferedWriter(savedFile)) {
 
                 writer.write("ID,Марка,Модель,КПП,Год,Госномер,Кузов,Статус,Пробег");
                 writer.newLine();

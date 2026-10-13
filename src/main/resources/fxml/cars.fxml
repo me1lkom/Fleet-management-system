@@ -37,6 +37,9 @@
         <ComboBox fx:id="filterStatusColumnComboBox"/>
         <Button onAction="#handleApplyFilter" text="Применить"/>
         <Button onAction="#handleResetFilter" text="Сбросить" />
+
+        <Label labelFor="$downloadCarsButton" text="Экспортировать"/>
+        <Button fx:id="downloadCarsButton" onAction="#handleDownloadCars" text="Скачать"/>
     </HBox>
     <TableView fx:id="carsTable" VBox.vgrow="ALWAYS">
         <columns>

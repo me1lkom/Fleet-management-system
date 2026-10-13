@@ -81,9 +81,9 @@ public class CarMenu {
                     case "10":
                         sortCars();
                         break;
-                    case "11":
-                        exportCars();
-                        break;
+//                    case "11":
+//                        exportCars();
+//                        break;
 
                     default:
                         System.out.println("Неизвестная команда!");
@@ -521,14 +521,14 @@ public class CarMenu {
         System.out.println(updatedCar);
     }
 
-    private void exportCars() {
-        System.out.println("\n=== ЭКСПОРТ АВТОМОБИЛЕЙ ===");
-
-        service.exportCarsToCsv();
-
-        System.out.println("Автомобили успешно экспортированы.");
-        System.out.println("Файл: exports/cars.csv");
-    }
+//    private void exportCars() {
+//        System.out.println("\n=== ЭКСПОРТ АВТОМОБИЛЕЙ ===");
+//
+//        service.exportCarsToCsv();
+//
+//        System.out.println("Автомобили успешно экспортированы.");
+//        System.out.println("Файл: exports/cars.csv");
+//    }
 
     private int readInt(String message) {
         while (true) {
