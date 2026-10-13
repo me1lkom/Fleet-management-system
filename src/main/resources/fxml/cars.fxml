@@ -3,13 +3,41 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mirea.project.car.controller.CarController">
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<VBox
+        xmlns="http://javafx.com/javafx/17.0.12"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="ru.mirea.project.car.controller.CarController">
    <HBox>
-       <Button mnemonicParsing="false" text="Добавить" />
-       <Button mnemonicParsing="false" text="Изменить" />
-       <Button mnemonicParsing="false" text="Удалить" />
+       <Button mnemonicParsing="false" text="Добавить" onAction="#handleOpenAddForm"/>
+       <Button mnemonicParsing="false" text="Изменить" onAction="#handleOpenChangeForm"/>
+       <Button mnemonicParsing="false" text="Удалить" onAction="#handleDelete"/>
        <Button mnemonicParsing="false" text="Обновить" onAction="#refreshTable"/>
    </HBox>
+    <HBox>
+        <ComboBox fx:id="searchFieldComboBox" promptText="Выберите">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Госномер" />
+                    <String fx:value="Марка" />
+                    <String fx:value="Модель" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <TextField fx:id="searchTextField" promptText="Введите запрос..."/>
+        <Button onAction="#handleSearch" text="Поиск"/>
+    </HBox>
+    <HBox>
+        <Label text="Фильтры"/>
+
+        <Label text="Тип кузова" labelFor="$filterBodyTypeComboBox"/>
+        <ComboBox fx:id="filterBodyTypeComboBox"/>
+        <Label text="Статус" labelFor="$filterStatusColumnComboBox" />
+        <ComboBox fx:id="filterStatusColumnComboBox"/>
+        <Button onAction="#handleApplyFilter" text="Применить"/>
+        <Button onAction="#handleResetFilter" text="Сбросить" />
+    </HBox>
     <TableView fx:id="carsTable" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="idColumn" text="ID" />

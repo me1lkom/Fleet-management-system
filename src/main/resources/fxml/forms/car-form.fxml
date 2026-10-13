@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox
+        xmlns="http://javafx.com/javafx/17.0.12"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="ru.mirea.project.car.controller.CarFormController">
+    <Label
+            text="Бренд"
+    />
+    <TextField
+            fx:id="brandTextField"
+            promptText="Введите бренд..."
+    />
+
+    <Label
+            text="Модель"
+    />
+    <TextField
+            fx:id="modelTextField"
+            promptText="Введите модель..."
+    />
+
+    <Label
+            text="Трансмиссия"
+    />
+    <ComboBox
+            fx:id="transmissionComboBox"
+            promptText="Выберите трансмиссию..."
+    />
+
+    <Label
+            text="Год"
+    />
+    <TextField
+            fx:id="yearTextField"
+            promptText="Введите год..."
+    />
+
+    <Label
+            text="Гос Номер"
+    />
+    <TextField
+            fx:id="licensePlateTextField"
+            promptText="Введите гос номер..."
+    />
+
+    <Label
+            text="Тип кузова"
+    />
+    <ComboBox
+            fx:id="bodyTypeComboBox"
+            promptText="Выберите тип кузова..."
+    />
+
+    <Label
+            text="Статус"
+    />
+    <ComboBox
+            fx:id="carStatusComboBox"
+            promptText="Выберите текущий статус..."
+    />
+
+
+    <Label
+            text="Пробег"
+    />
+    <TextField
+            fx:id="mileageTextField"
+            promptText="Введите пробег..."
+    />
+
+    <Label text="" fx:id="errorLabel"/>
+
+    <HBox>
+        <Button mnemonicParsing="false" fx:id="submitButton" text="Сохранить" onAction="#handleSubmitButton"/>
+        <Button mnemonicParsing="false" fx:id="closeButton" text="Отмена" onAction="#handleClose"/>
+    </HBox>
+</VBox>
