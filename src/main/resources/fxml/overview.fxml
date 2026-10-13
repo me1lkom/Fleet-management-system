@@ -13,7 +13,7 @@
         <Button onAction="#handleRefreshStatistic" text="Обновить" />
         <HBox>
             <Label text="Экспорт"/>
-            <Button onAction="#handleDownloadCars" text="Автомобили" />
+            <Button fx:id="downloadCarsButton" onAction="#handleDownloadCars" text="Автомобили" />
             <Button onAction="#handleDownloadUsers" text="Пользователи" />
             <Button onAction="#handleDownloadRequests" text="Заявки" />
         </HBox>

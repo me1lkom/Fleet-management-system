@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.mirea.project.car.enums.BodyType;
@@ -20,6 +21,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import ru.mirea.project.car.repository.JdbcCarRepository;
 import ru.mirea.project.car.service.CarService;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +63,9 @@ public class CarController {
     private ComboBox<BodyType> filterBodyTypeComboBox;
     @FXML
     private ComboBox<CarStatus> filterStatusColumnComboBox;
+
+    @FXML
+    private Button downloadCarsButton;
 
     @FXML
     public void initialize() {
@@ -323,5 +328,39 @@ public class CarController {
         filterBodyTypeComboBox.setValue(null);
         filterStatusColumnComboBox.setValue(null);
         loadCars();
+    }
+
+    @FXML
+    private void handleDownloadCars() {
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.setTitle("Сохранить таблицу cars");
+        fileChooser.setInitialFileName("cars.csv");
+
+        FileChooser.ExtensionFilter extensionFilter =
+                new FileChooser.ExtensionFilter("CSV файлы (*.csv)", "*.csv");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+
+
+        File file = fileChooser.showSaveDialog(
+                downloadCarsButton.getScene().getWindow()
+        );
+
+        if (file != null) {
+            try {
+                carService.exportCarsToCsv(carsTable.getItems(), file);
+
+                new Alert(
+                        Alert.AlertType.INFORMATION,
+                        "Файл успешно сохранён!"
+                ).showAndWait();
+
+            } catch (RuntimeException e) {
+                new Alert(
+                        Alert.AlertType.ERROR,
+                        e.getMessage()
+                ).showAndWait();
+            }
+        }
     }
 }
