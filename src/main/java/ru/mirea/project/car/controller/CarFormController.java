@@ -1,14 +1,13 @@
 package ru.mirea.project.car.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import ru.mirea.project.car.enums.BodyType;
 import ru.mirea.project.car.enums.CarStatus;
 import ru.mirea.project.car.enums.Transmission;
+import ru.mirea.project.car.exception.CarNotFoundException;
+import ru.mirea.project.car.exception.DataAccessException;
 import ru.mirea.project.car.model.Car;
 import ru.mirea.project.car.repository.JdbcCarRepository;
 import ru.mirea.project.car.service.CarService;
@@ -134,9 +133,15 @@ public class CarFormController {
             }
 
             handleClose();
-        } catch (Exception e) {
-            e.printStackTrace();
-            errorLabel.setText("Ошибка: " + e.getMessage());
+        } catch (CarNotFoundException e) {
+            errorLabel.setText(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            errorLabel.setText(e.getMessage());
+        } catch (DataAccessException e) {
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Не удалось сохранить автомобиль. Ошибка работы бд."
+            ).showAndWait();
         }
 
     }

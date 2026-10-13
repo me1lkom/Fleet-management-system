@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 import ru.mirea.project.car.enums.BodyType;
 import ru.mirea.project.car.enums.CarStatus;
 import ru.mirea.project.car.enums.Transmission;
+import ru.mirea.project.car.exception.CarNotFoundException;
+import ru.mirea.project.car.exception.DataAccessException;
+import ru.mirea.project.car.exception.ExportException;
 import ru.mirea.project.car.model.Car;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -129,7 +132,15 @@ public class CarController {
     }
 
     private void loadCars() {
-        updateRows(carService.getAllCars());
+        try{
+            updateRows(carService.getAllCars());
+        } catch (DataAccessException e) {
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Не удалось загрузить автомобиль. Ошибка работы бд."
+            ).showAndWait();
+        };
+
     }
 
     @FXML
@@ -164,7 +175,10 @@ public class CarController {
             modalStage.showAndWait();
             refreshTable();
         } catch (IOException e) {
-            e.printStackTrace();
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Не удалось открыть форму автомобиля."
+            ).showAndWait();
         }
     }
 
@@ -212,7 +226,10 @@ public class CarController {
             modalStage.showAndWait();
             refreshTable();
         } catch (IOException e) {
-            e.printStackTrace();
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Не удалось открыть форму автомобиля."
+            ).showAndWait();
         }
     }
 
@@ -239,18 +256,20 @@ public class CarController {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.YES) {
-            try{
+            try {
                 carService.deleteCarById(selectedCar.getId());
-            } catch (Exception e) {
-                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                errorAlert.setTitle("Ошибка удаления");
-                errorAlert.setHeaderText("Не удалось удалить автомобиль");
-                errorAlert.setContentText(e.getMessage());
-
-                errorAlert.showAndWait();
-                return;
+                refreshTable();
+            } catch (CarNotFoundException e) {
+                new Alert(
+                        Alert.AlertType.ERROR,
+                        e.getMessage()
+                ).showAndWait();
+            } catch (DataAccessException e) {
+                new Alert(
+                        Alert.AlertType.ERROR,
+                        "Не удалось удалить автомобиль. Ошибка работы с базой данных."
+                ).showAndWait();
             }
-
             refreshTable();
         } else {
             System.out.println("Отменил");
@@ -275,23 +294,30 @@ public class CarController {
             return;
         }
 
-        switch (field){
-            case "Марка":
-                updateRows(carService.getCarsByBrand(value));
-                break;
-            case "Модель":
-                updateRows(carService.getCarsByModel(value));
-                break;
-            case "Госномер":
-                Car car = carService.getCarByLicensePlate(value);
-                if (car == null){
-                    List<Car> resultLicensePlate = List.of();
-                    updateRows(resultLicensePlate);
-                } else {
-                    List<Car> resultLicensePlate = List.of(car);
-                    updateRows(resultLicensePlate);
-                }
-                break;
+        try {
+            switch (field) {
+                case "Марка":
+                    updateRows(carService.getCarsByBrand(value));
+                    break;
+                case "Модель":
+                    updateRows(carService.getCarsByModel(value));
+                    break;
+                case "Госномер":
+                    Car car = carService.getCarByLicensePlate(value);
+                    if (car == null) {
+                        List<Car> resultLicensePlate = List.of();
+                        updateRows(resultLicensePlate);
+                    } else {
+                        List<Car> resultLicensePlate = List.of(car);
+                        updateRows(resultLicensePlate);
+                    }
+                    break;
+            }
+        } catch (DataAccessException e) {
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Ошибка работы с базой данных."
+            ).showAndWait();
         }
     }
 
@@ -310,16 +336,19 @@ public class CarController {
             loadCars();
             return;
         }
-
-        if (carStatus == null) {
-            List<Car> firteredCars = carService.filterCarsByBodyType(bodyType);
-            updateRows(firteredCars);
-        } else if (bodyType == null ) {
-            List<Car> firteredCars = carService.filterCarsByStatus(carStatus);
-            updateRows(firteredCars);
-        } else {
-            List<Car> firteredCars = carService.filterCarsByStatusANDBodyType(carStatus, bodyType);
-            updateRows(firteredCars);
+        try{
+            if (carStatus == null) {
+                updateRows(carService.filterCarsByBodyType(bodyType));
+            } else if (bodyType == null ) {
+                updateRows(carService.filterCarsByStatus(carStatus));
+            } else {
+                updateRows(carService.filterCarsByStatusANDBodyType(carStatus, bodyType));
+            }
+        } catch (DataAccessException e) {
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Ошибка работы с базой данных."
+            ).showAndWait();
         }
     }
 
@@ -355,7 +384,7 @@ public class CarController {
                         "Файл успешно сохранён!"
                 ).showAndWait();
 
-            } catch (RuntimeException e) {
+            } catch (ExportException e) {
                 new Alert(
                         Alert.AlertType.ERROR,
                         e.getMessage()

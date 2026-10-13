@@ -5,6 +5,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
+import ru.mirea.project.car.exception.DataAccessException;
+import ru.mirea.project.car.exception.ExportException;
 import ru.mirea.project.car.repository.JdbcCarRepository;
 import ru.mirea.project.car.service.CarService;
 
@@ -38,10 +40,21 @@ public class OverviewController {
 
     @FXML
     private void loadStatistics(){
-        CarService.CarStatistics statistic = carService.getStatistics();
-        totalCarLabel.setText(String.valueOf(statistic.total()));
-        availableCarLabel.setText(String.valueOf(statistic.avalible()));
-        maintenanceCarLabel.setText(String.valueOf(statistic.maintanance()));
+        try {
+            CarService.CarStatistics statistic = carService.getStatistics();
+            totalCarLabel.setText(String.valueOf(statistic.total()));
+            availableCarLabel.setText(String.valueOf(statistic.avalible()));
+            maintenanceCarLabel.setText(String.valueOf(statistic.maintanance()));
+        } catch (DataAccessException e) {
+            totalCarLabel.setText("—");
+            availableCarLabel.setText("—");
+            maintenanceCarLabel.setText("—");
+
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Ошибка работы бд."
+            ).showAndWait();
+        }
     }
 
     @FXML
@@ -74,7 +87,7 @@ public class OverviewController {
                         "Файл успешно сохранён!"
                 ).showAndWait();
 
-            } catch (RuntimeException e) {
+            } catch (ExportException e) {
                 new Alert(
                         Alert.AlertType.ERROR,
                         e.getMessage()
