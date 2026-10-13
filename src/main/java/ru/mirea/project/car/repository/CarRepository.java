@@ -19,6 +19,7 @@ public interface CarRepository {
 
     List<Car> filterByStatus(CarStatus status);
     List<Car> filterByBodyType(BodyType bodyType);
+    List<Car> filterCarsByStatusANDBodyType(CarStatus status, BodyType bodyType);
     List<Car> filterByTransmission(Transmission transmission);
     List<Car> sortByYear();
     List<Car> sortByMileage();

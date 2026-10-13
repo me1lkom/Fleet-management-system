@@ -110,13 +110,13 @@ public class JdbcCarRepository implements CarRepository {
     public Car searchByLicensePlate(String licensePlate) {
 
         String sql = "SELECT * FROM cars " +
-                "WHERE license_plate = ?";
+                "WHERE LOWER(license_plate) = LOWER(?)";
 
         try (
                 Connection connection = DatabaseManager.openConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)
         ) {
-            statement.setString(1, licensePlate);
+            statement.setString(1, licensePlate.trim());
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -160,7 +160,7 @@ public class JdbcCarRepository implements CarRepository {
     public List<Car> searchByBrand(String brand) {
 
         String sql = "SELECT * FROM cars " +
-                "WHERE brand = ?";
+                "WHERE brand ILIKE ?";
 
         List<Car> cars = new ArrayList<>();
 
@@ -168,7 +168,7 @@ public class JdbcCarRepository implements CarRepository {
                 Connection connection = DatabaseManager.openConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)
         ) {
-            statement.setString(1, brand);
+            statement.setString(1, '%' + brand.trim() + '%');
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -188,7 +188,7 @@ public class JdbcCarRepository implements CarRepository {
     public List<Car> searchByModel(String model) {
 
         String sql = "SELECT * FROM cars " +
-                "WHERE model = ?";
+                "WHERE model ILIKE ?";
 
         List<Car> cars = new ArrayList<>();
 
@@ -196,7 +196,7 @@ public class JdbcCarRepository implements CarRepository {
                 Connection connection = DatabaseManager.openConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)
         ) {
-            statement.setString(1, model);
+            statement.setString(1, '%' + model + '%');
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -263,6 +263,35 @@ public class JdbcCarRepository implements CarRepository {
         } catch (SQLException e) {
             throw new DataAccessException(
                     "Ошибка получения автомобилей по типу кузова.",
+                    e
+            );
+        }
+    }
+
+    @Override
+    public List<Car> filterCarsByStatusANDBodyType(CarStatus status, BodyType bodyType) {
+
+        String sql = "SELECT * FROM cars " +
+                "WHERE status = ? AND body_type = ?";
+
+        List<Car> cars = new ArrayList<>();
+
+        try (
+                Connection connection = DatabaseManager.openConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setString(1, status.name());
+            statement.setString(2, bodyType.name());
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    cars.add(mapCar(resultSet));
+                }
+                return cars;
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException(
+                    "Ошибка получения автомобилей по статусу и типу кузова.",
                     e
             );
         }

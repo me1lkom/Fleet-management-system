@@ -49,15 +49,7 @@ public class CarService {
     }
 
     public Car getCarByLicensePlate(String licensePlate) {
-        Car existCar = carRepository.searchByLicensePlate(licensePlate);
-
-        if (existCar == null) {
-            throw new DuplicateLicensePlateException(
-                    "Автомобиль с номером " + licensePlate + " не найден."
-            );
-        }
-
-        return existCar;
+        return carRepository.searchByLicensePlate(licensePlate);
     }
 
     public List<Car> getAllCars() {
@@ -78,6 +70,9 @@ public class CarService {
 
     public List<Car> filterCarsByBodyType(BodyType bodyType) {
         return carRepository.filterByBodyType(bodyType);
+    }
+    public List<Car> filterCarsByStatusANDBodyType(CarStatus status, BodyType bodyType) {
+        return carRepository.filterCarsByStatusANDBodyType(status, bodyType);
     }
 
     public List<Car> filterCarsByTransmission(Transmission transmission) {
