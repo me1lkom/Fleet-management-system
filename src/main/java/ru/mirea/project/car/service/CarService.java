@@ -5,6 +5,7 @@ import ru.mirea.project.car.enums.CarStatus;
 import ru.mirea.project.car.enums.Transmission;
 import ru.mirea.project.car.exception.CarNotFoundException;
 import ru.mirea.project.car.exception.DuplicateLicensePlateException;
+import ru.mirea.project.car.exception.ExportException;
 import ru.mirea.project.car.model.Car;
 import ru.mirea.project.car.repository.CarRepository;
 
@@ -167,7 +168,7 @@ public class CarService {
             }
 
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка экспорта автомобилей в CSV.", e);
+            throw new ExportException("Ошибка экспорта автомобилей в CSV.", e);
         }
     }
 
