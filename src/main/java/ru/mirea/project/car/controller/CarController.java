@@ -126,6 +126,10 @@ public class CarController {
         filterBodyTypeComboBox.getItems().setAll(BodyType.values());
         filterStatusColumnComboBox.getItems().setAll(CarStatus.values());
         loadCars();
+
+        carsTable.setColumnResizePolicy(
+                TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
+        );
     }
 
     private void loadCars() {

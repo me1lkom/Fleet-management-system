@@ -8,50 +8,145 @@
 <VBox
         xmlns="http://javafx.com/javafx/17.0.12"
         xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="ru.mirea.project.car.controller.CarController">
-   <HBox>
-       <Button mnemonicParsing="false" text="Добавить" onAction="#handleOpenAddForm"/>
-       <Button mnemonicParsing="false" text="Изменить" onAction="#handleOpenChangeForm"/>
-       <Button mnemonicParsing="false" text="Удалить" onAction="#handleDelete"/>
-       <Button mnemonicParsing="false" text="Обновить" onAction="#refreshTable"/>
-   </HBox>
+        fx:controller="ru.mirea.project.car.controller.CarController"
+        stylesheets="@../css/app.css"
+        spacing="10"
+        styleClass="page"
+>
     <HBox>
-        <ComboBox fx:id="searchFieldComboBox" promptText="Выберите">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Госномер" />
-                    <String fx:value="Марка" />
-                    <String fx:value="Модель" />
-                </FXCollections>
-            </items>
-        </ComboBox>
-        <TextField fx:id="searchTextField" promptText="Введите запрос..."/>
-        <Button onAction="#handleSearch" text="Поиск"/>
-    </HBox>
-    <HBox>
-        <Label text="Фильтры"/>
+        <VBox styleClass="title-container">
+            <Label styleClass="page-title" text="Автомобили"/>
+            <Label styleClass="under-title" text="Управление автопарком"/>
+        </VBox>
 
-        <Label text="Тип кузова" labelFor="$filterBodyTypeComboBox"/>
-        <ComboBox fx:id="filterBodyTypeComboBox"/>
-        <Label text="Статус" labelFor="$filterStatusColumnComboBox" />
-        <ComboBox fx:id="filterStatusColumnComboBox"/>
-        <Button onAction="#handleApplyFilter" text="Применить"/>
-        <Button onAction="#handleResetFilter" text="Сбросить" />
+        <Region HBox.hgrow="ALWAYS"/>
 
-        <Label labelFor="$downloadCarsButton" text="Экспортировать"/>
-        <Button fx:id="downloadCarsButton" onAction="#handleDownloadCars" text="Скачать"/>
+        <HBox styleClass="crud-container" spacing="10">
+            <Button mnemonicParsing="false" text="+Добавить" onAction="#handleOpenAddForm"/>
+            <Button mnemonicParsing="false" text="Изменить" onAction="#handleOpenChangeForm"/>
+            <Button mnemonicParsing="false" text="Удалить" onAction="#handleDelete"/>
+        </HBox>
+
     </HBox>
-    <TableView fx:id="carsTable" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="idColumn" text="ID" />
-            <TableColumn fx:id="brandColumn" text="Марка" />
-            <TableColumn fx:id="modelColumn" text="Модель" />
-            <TableColumn fx:id="transmissionColumn" text="Трансмиссия" />
-            <TableColumn fx:id="yearColumn" text="Год" />
-            <TableColumn fx:id="licensePlateColumn" text="Номер" />
-            <TableColumn fx:id="bodyTypeColumn" text="Тип кузова" />
-            <TableColumn fx:id="statusColumn" text="Статус" />
-            <TableColumn fx:id="mileageColumn" text="Пробег" />
-        </columns>
-    </TableView>
+    <VBox styleClass="functions" spacing="16">
+        <VBox spacing="12">
+            <HBox>
+                <Label styleClass="function-title" text="Поиск"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Button mnemonicParsing="false" text="Обновить" onAction="#refreshTable"/>
+            </HBox>
+
+            <GridPane hgap="10">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="65"/>
+                    <ColumnConstraints percentWidth="15"/>
+                </columnConstraints>
+
+                <ComboBox
+                        fx:id="searchFieldComboBox"
+                        promptText="Выберите"
+                        GridPane.columnIndex="0"
+                        maxWidth="Infinity"
+                >
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Госномер" />
+                            <String fx:value="Марка" />
+                            <String fx:value="Модель" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+
+                <TextField
+                        fx:id="searchTextField"
+                        promptText="Введите запрос..."
+                        GridPane.columnIndex="1"
+                        maxWidth="Infinity"
+                />
+
+                <Button
+                        onAction="#handleSearch"
+                        text="Поиск"
+                        GridPane.columnIndex="2"
+                        maxWidth="Infinity"
+                />
+            </GridPane>
+        </VBox>
+
+        <Separator />
+
+        <VBox spacing="12">
+            <HBox>
+                <Label styleClass="function-title" text="Фильтра:"/>
+            </HBox>
+
+            <GridPane hgap="10">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="35"/>
+                    <ColumnConstraints percentWidth="35"/>
+                    <ColumnConstraints percentWidth="15"/>
+                    <ColumnConstraints percentWidth="15"/>
+                </columnConstraints>
+
+                <VBox
+                        GridPane.columnIndex="0"
+                        maxWidth="Infinity"
+                >
+                    <Label styleClass="select-title" text="Тип кузова" labelFor="$filterBodyTypeComboBox"/>
+                    <ComboBox maxWidth="Infinity" fx:id="filterBodyTypeComboBox"/>
+                </VBox>
+
+                <VBox
+                        GridPane.columnIndex="1"
+                        maxWidth="Infinity"
+                >
+                    <Label styleClass="select-title" text="Статус" labelFor="$filterStatusColumnComboBox" />
+                    <ComboBox maxWidth="Infinity" fx:id="filterStatusColumnComboBox"/>
+                </VBox>
+
+                <Button
+                        onAction="#handleApplyFilter"
+                        text="Применить"
+                        GridPane.columnIndex="2"
+                        maxWidth="Infinity"
+                        GridPane.valignment="BOTTOM"
+                />
+
+                <Button
+                        onAction="#handleResetFilter"
+                        text="Сбросить"
+                        GridPane.columnIndex="3"
+                        maxWidth="Infinity"
+                        GridPane.valignment="BOTTOM"
+                />
+            </GridPane>
+        </VBox>
+    </VBox>
+
+    <VBox styleClass="table-container" VBox.vgrow="ALWAYS" spacing="12">
+        <HBox>
+            <Label styleClass="table-title" text="Список автомобилей"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button fx:id="downloadCarsButton" onAction="#handleDownloadCars" text="Экспорт CSV"/>
+        </HBox>
+
+        <TableView fx:id="carsTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" />
+                <TableColumn fx:id="brandColumn" text="Марка" />
+                <TableColumn fx:id="modelColumn" text="Модель" />
+                <TableColumn fx:id="transmissionColumn" text="Трансмиссия" />
+                <TableColumn fx:id="yearColumn" text="Год" />
+                <TableColumn fx:id="licensePlateColumn" text="Номер" />
+                <TableColumn fx:id="bodyTypeColumn" text="Тип кузова" />
+                <TableColumn fx:id="statusColumn" text="Статус" />
+                <TableColumn fx:id="mileageColumn" text="Пробег" />
+            </columns>
+        </TableView>
+    </VBox>
 </VBox>
