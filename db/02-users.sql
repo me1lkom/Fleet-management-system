@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
     phone VARCHAR(12) NOT NULL UNIQUE,
     email VARCHAR(255) UNIQUE,
     driver_license VARCHAR(10) UNIQUE,
+    status VARCHAR(20) NOT NULL DEFAULT 'REGULAR',
 
     CONSTRAINT check_first_name
     CHECK (LENGTH(TRIM(first_name)) > 0),
@@ -19,5 +20,8 @@ CREATE TABLE IF NOT EXISTS users (
     CHECK (
               driver_license IS NULL
               OR driver_license ~ '^[0-9]{10}$'
-          )
+          ),
+
+    CONSTRAINT check_user_status
+    CHECK (status IN ('REGULAR', 'VIP'))
     );

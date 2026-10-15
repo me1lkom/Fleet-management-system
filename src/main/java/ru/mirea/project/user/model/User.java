@@ -1,5 +1,6 @@
-
 package ru.mirea.project.user.model;
+
+import ru.mirea.project.user.enums.UserStatus;
 
 import java.util.Locale;
 
@@ -11,6 +12,7 @@ public class User {
     private String phone;
     private String email;
     private String driverLicense;
+    private UserStatus status = UserStatus.REGULAR;
 
     public User(
             Long id,
@@ -129,6 +131,20 @@ public class User {
         this.driverLicense = normalized;
     }
 
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        if (status == null) {
+            throw new IllegalArgumentException(
+                    "Статус пользователя не может быть пустым!"
+            );
+        }
+
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -138,6 +154,7 @@ public class User {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", driverLicense='" + driverLicense + '\'' +
+                ", status=" + status +
                 '}';
     }
 }
