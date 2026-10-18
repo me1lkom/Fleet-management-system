@@ -1,11 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.StackPane?>
-
-<StackPane
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="ru.mirea.project.request.controller.RequestController"
->
-    <Label text="Раздел управления запросами"/>
-</StackPane>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.mirea.project.request.controller.RequestController"
+      stylesheets="@../css/app.css" spacing="10" styleClass="page">
+    <HBox>
+        <VBox styleClass="title-container">
+            <Label styleClass="page-title" text="Заявки на аренду"/>
+            <Label styleClass="under-title" text="Долгосрочная аренда автомобилей"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox styleClass="crud-container" spacing="10">
+            <Button text="+Добавить" onAction="#handleOpenAddForm"/>
+            <Button text="Изменить" onAction="#handleOpenChangeForm"/>
+            <Button text="Удалить" onAction="#handleDelete"/>
+        </HBox>
+    </HBox>
+    <VBox styleClass="functions" spacing="12">
+        <HBox>
+            <Label styleClass="function-title" text="Поиск и фильтры"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Обновить" onAction="#refreshTable"/>
+        </HBox>
+        <HBox spacing="10">
+            <TextField fx:id="searchTextField" promptText="Поиск по примечанию" HBox.hgrow="ALWAYS"/>
+            <Button text="Найти" onAction="#handleSearch"/>
+            <ComboBox fx:id="statusFilter" promptText="Статус"/>
+            <TextField fx:id="userFilter" promptText="ID арендатора" prefWidth="140"/>
+            <Button text="Фильтр" onAction="#handleFilter"/>
+            <Button text="Сбросить" onAction="#handleReset"/>
+        </HBox>
+        <HBox spacing="10">
+            <Button text="Дата ↑" onAction="#sortDateAsc"/>
+            <Button text="Дата ↓" onAction="#sortDateDesc"/>
+            <Button text="Цена ↑" onAction="#sortPriceAsc"/>
+            <Button text="Цена ↓" onAction="#sortPriceDesc"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="exportButton" text="Экспорт CSV" onAction="#handleExport"/>
+        </HBox>
+        <HBox spacing="20">
+            <Label fx:id="statTotal" text="Всего: —"/>
+            <Label fx:id="statActive" text="Активные: —"/>
+            <Label fx:id="statApproved" text="Одобренные: —"/>
+            <Label fx:id="statAvg" text="Средняя цена: —"/>
+            <Label fx:id="statLong" text="От 90 дней: —"/>
+        </HBox>
+    </VBox>
+    <TableView fx:id="requestsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
+            <TableColumn fx:id="userColumn" text="Арендатор" prefWidth="100"/>
+            <TableColumn fx:id="carColumn" text="Авто" prefWidth="80"/>
+            <TableColumn fx:id="startColumn" text="Начало" prefWidth="120"/>
+            <TableColumn fx:id="endColumn" text="Окончание" prefWidth="120"/>
+            <TableColumn fx:id="daysColumn" text="Дней" prefWidth="80"/>
+            <TableColumn fx:id="priceColumn" text="Цена/мес" prefWidth="100"/>
+            <TableColumn fx:id="statusColumn" text="Статус" prefWidth="120"/>
+            <TableColumn fx:id="notesColumn" text="Примечание" prefWidth="240"/>
+        </columns>
+    </TableView>
+</VBox>

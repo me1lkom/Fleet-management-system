@@ -2,7 +2,8 @@ package ru.mirea.project.request.enums;
 
 public enum RequestStatus {
     NEW,
-    IN_PROGRESS,
+    APPROVED,
+    ACTIVE,
     COMPLETED,
     CANCELLED
 }
