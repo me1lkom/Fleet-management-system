@@ -1,0 +1,110 @@
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox
+        xmlns="http://javafx.com/javafx/21"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="ru.mirea.project.user.controller.UserFormController"
+        prefWidth="480"
+        spacing="14"
+        style="-fx-background-color: #f3f5f9;">
+
+    <padding>
+        <Insets top="24" right="28" bottom="24" left="28"/>
+    </padding>
+
+    <Label
+            fx:id="titleLabel"
+            text="Добавление пользователя"
+            styleClass="page-title"
+            style="-fx-font-size: 24px;"/>
+
+    <VBox spacing="6">
+        <Label
+                text="Имя *"
+                styleClass="select-title"/>
+
+        <TextField
+                fx:id="firstNameField"
+                promptText="Введите имя"
+                style="-fx-text-fill: #26364a; -fx-background-color: white;"/>
+    </VBox>
+
+    <VBox spacing="6">
+        <Label
+                text="Фамилия *"
+                styleClass="select-title"/>
+
+        <TextField
+                fx:id="lastNameField"
+                promptText="Введите фамилию"
+                style="-fx-text-fill: #26364a; -fx-background-color: white;"/>
+    </VBox>
+
+    <VBox spacing="6">
+        <Label
+                text="Телефон *"
+                styleClass="select-title"/>
+
+        <TextField
+                fx:id="phoneField"
+                promptText="+79991234567"
+                style="-fx-text-fill: #26364a; -fx-background-color: white;"/>
+    </VBox>
+
+    <VBox spacing="6">
+        <Label
+                text="Email"
+                styleClass="select-title"/>
+
+        <TextField
+                fx:id="emailField"
+                promptText="example@mail.ru"
+                style="-fx-text-fill: #26364a; -fx-background-color: white;"/>
+    </VBox>
+
+    <VBox spacing="6">
+        <Label
+                text="Водительское удостоверение"
+                styleClass="select-title"/>
+
+        <TextField
+                fx:id="driverLicenseField"
+                promptText="10 цифр"
+                style="-fx-text-fill: #26364a; -fx-background-color: white;"/>
+    </VBox>
+
+    <VBox spacing="6">
+        <Label
+                text="Статус пользователя *"
+                styleClass="select-title"/>
+
+        <ComboBox
+                fx:id="statusComboBox"
+                maxWidth="Infinity"
+                style="-fx-background-color: white;"/>
+    </VBox>
+
+    <Label
+            fx:id="errorLabel"
+            text=""
+            wrapText="true"
+            style="-fx-text-fill: #dc2626; -fx-font-size: 13px;"/>
+
+    <HBox spacing="12" alignment="CENTER_RIGHT">
+
+        <Button
+                fx:id="cancelButton"
+                text="Отмена"
+                onAction="#handleCancel"
+                style="-fx-background-color: #64748b;"/>
+
+        <Button
+                text="Сохранить"
+                onAction="#handleSave"/>
+
+    </HBox>
+
+</VBox>

@@ -27,20 +27,32 @@ public class UserService {
     }
 
     private void checkDuplicates(User user) {
-        User existingPhone = repository.findByPhone(user.getPhone());
+        User existingPhone = repository.findByPhone(
+                user.getPhone()
+        );
 
         if (existingPhone != null &&
-                !Objects.equals(existingPhone.getId(), user.getId())) {
+                !Objects.equals(
+                        existingPhone.getId(),
+                        user.getId()
+                )) {
+
             throw new UserAlreadyExistsException(
                     "Пользователь с таким телефоном уже существует!"
             );
         }
 
         if (user.getEmail() != null) {
-            User existingEmail = repository.findByEmail(user.getEmail());
+            User existingEmail = repository.findByEmail(
+                    user.getEmail()
+            );
 
             if (existingEmail != null &&
-                    !Objects.equals(existingEmail.getId(), user.getId())) {
+                    !Objects.equals(
+                            existingEmail.getId(),
+                            user.getId()
+                    )) {
+
                 throw new UserAlreadyExistsException(
                         "Пользователь с таким email уже существует!"
                 );
@@ -83,6 +95,7 @@ public class UserService {
         );
 
         user.setStatus(status);
+
         checkDuplicates(user);
 
         return repository.save(user);
@@ -99,7 +112,9 @@ public class UserService {
 
         if (user == null) {
             throw new UserNotFoundException(
-                    "Пользователь с ID " + id + " не найден!"
+                    "Пользователь с ID " +
+                            id +
+                            " не найден!"
             );
         }
 
@@ -117,7 +132,9 @@ public class UserService {
             );
         }
 
-        User user = repository.findByPhone(phone.trim());
+        User user = repository.findByPhone(
+                phone.trim()
+        );
 
         if (user == null) {
             throw new UserNotFoundException(
@@ -135,7 +152,9 @@ public class UserService {
             );
         }
 
-        return repository.searchByName(name.trim());
+        return repository.searchByName(
+                name.trim()
+        );
     }
 
     public User updateUser(
@@ -180,12 +199,16 @@ public class UserService {
         );
 
         updatedUser.setStatus(status);
+
         checkDuplicates(updatedUser);
 
         return repository.update(updatedUser);
     }
 
-    public User changeUserStatus(Long id, UserStatus status) {
+    public User changeUserStatus(
+            Long id,
+            UserStatus status
+    ) {
         User user = getUserById(id);
 
         user.setStatus(status);
@@ -195,13 +218,16 @@ public class UserService {
 
     public void deleteUser(Long id) {
         getUserById(id);
+
         repository.deleteById(id);
     }
 
     public List<User> filterWithDriverLicense() {
         return repository.findAll()
                 .stream()
-                .filter(user -> user.getDriverLicense() != null)
+                .filter(
+                        user -> user.getDriverLicense() != null
+                )
                 .collect(Collectors.toList());
     }
 
@@ -214,7 +240,9 @@ public class UserService {
 
         return repository.findAll()
                 .stream()
-                .filter(user -> user.getStatus() == status)
+                .filter(
+                        user -> user.getStatus() == status
+                )
                 .collect(Collectors.toList());
     }
 
@@ -245,7 +273,11 @@ public class UserService {
     public List<User> sortByIdAsc() {
         return repository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(User::getId))
+                .sorted(
+                        Comparator.comparing(
+                                User::getId
+                        )
+                )
                 .collect(Collectors.toList());
     }
 
@@ -253,24 +285,42 @@ public class UserService {
         return repository.findAll()
                 .stream()
                 .sorted(
-                        Comparator.comparing(User::getId).reversed()
+                        Comparator.comparing(
+                                User::getId
+                        ).reversed()
                 )
                 .collect(Collectors.toList());
     }
 
     public void exportToCsv(String fileName) {
-        List<User> users = repository.findAll();
+        Path exportDir = Paths.get("exports");
+
+        exportToCsv(
+                repository.findAll(),
+                exportDir.resolve(fileName)
+        );
+    }
+
+    public void exportToCsv(
+            List<User> users,
+            Path filePath
+    ) {
+        Objects.requireNonNull(users);
+        Objects.requireNonNull(filePath);
 
         try {
-            Path exportDir = Paths.get("exports");
-            Files.createDirectories(exportDir);
+            Path parent = filePath.getParent();
 
-            Path filePath = exportDir.resolve(fileName);
+            if (parent != null) {
+                Files.createDirectories(parent);
+            }
 
-            try (BufferedWriter writer = Files.newBufferedWriter(
-                    filePath,
-                    StandardCharsets.UTF_8
-            )) {
+            try (BufferedWriter writer =
+                         Files.newBufferedWriter(
+                                 filePath,
+                                 StandardCharsets.UTF_8
+                         )) {
+
                 writer.write('\uFEFF');
 
                 writer.write(
@@ -307,6 +357,8 @@ public class UserService {
             return "";
         }
 
-        return "\"" + value.replace("\"", "\"\"") + "\"";
+        return "\"" +
+                value.replace("\"", "\"\"") +
+                "\"";
     }
 }
