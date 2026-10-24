@@ -5,10 +5,19 @@ import ru.mirea.project.car.enums.CarStatus;
 import ru.mirea.project.car.enums.Transmission;
 import ru.mirea.project.car.exception.CarNotFoundException;
 import ru.mirea.project.car.exception.DuplicateLicensePlateException;
+import ru.mirea.project.car.exception.ExportException;
 import ru.mirea.project.car.model.Car;
 import ru.mirea.project.car.repository.CarRepository;
 
+import java.io.File;
 import java.util.List;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static ru.mirea.project.car.enums.CarStatus.AVAILABLE;
 
 public class CarService {
 
@@ -44,15 +53,7 @@ public class CarService {
     }
 
     public Car getCarByLicensePlate(String licensePlate) {
-        Car existCar = carRepository.searchByLicensePlate(licensePlate);
-
-        if (existCar == null) {
-            throw new DuplicateLicensePlateException(
-                    "Автомобиль с номером " + licensePlate + " не найден."
-            );
-        }
-
-        return existCar;
+        return carRepository.searchByLicensePlate(licensePlate);
     }
 
     public List<Car> getAllCars() {
@@ -74,6 +75,9 @@ public class CarService {
     public List<Car> filterCarsByBodyType(BodyType bodyType) {
         return carRepository.filterByBodyType(bodyType);
     }
+    public List<Car> filterCarsByStatusANDBodyType(CarStatus status, BodyType bodyType) {
+        return carRepository.filterCarsByStatusANDBodyType(status, bodyType);
+    }
 
     public List<Car> filterCarsByTransmission(Transmission transmission) {
         return carRepository.filterByTransmission(transmission);
@@ -86,7 +90,6 @@ public class CarService {
     public List<Car> sortCarsByMileage() {
         return carRepository.sortByMileage();
     }
-
 
     public Car updateCar(Car car) {
 
@@ -133,4 +136,63 @@ public class CarService {
 
         carRepository.deleteById(id);
     }
+
+    public void exportCarsToCsv(File file) {
+        exportCarsToCsv(getAllCars(), file);
+    }
+
+    public void exportCarsToCsv(List<Car> cars, File file) {
+        Path savedFile = file.toPath();
+
+        try {
+            try (BufferedWriter writer = Files.newBufferedWriter(savedFile)) {
+
+                writer.write("ID,Марка,Модель,КПП,Год,Госномер,Кузов,Статус,Пробег");
+                writer.newLine();
+
+                for (Car car : cars) {
+                    writer.write(
+                            car.getId() + "," +
+                                    car.getBrand() + "," +
+                                    car.getModel() + "," +
+                                    car.getTransmission().name() + "," +
+                                    car.getYear() + "," +
+                                    car.getLicensePlate() + "," +
+                                    car.getBodyType().name() + "," +
+                                    car.getStatus().name() + "," +
+                                    car.getMileage()
+                    );
+
+                    writer.newLine();
+                }
+            }
+
+        } catch (IOException e) {
+            throw new ExportException("Ошибка экспорта автомобилей в CSV.", e);
+        }
+    }
+
+
+    public record CarStatistics(
+            int total,
+            long avalible,
+            long maintanance
+    ) {}
+
+    public CarStatistics getStatistics(){
+        List<Car> cars = getAllCars();
+
+        int allCars = cars.size();
+
+        long avalibleCar = cars.stream()
+                .filter(car -> car.getStatus() == CarStatus.AVAILABLE)
+                .count();
+
+        long maintananceCar = cars.stream()
+                .filter(car -> car.getStatus() == CarStatus.MAINTENANCE)
+                .count();
+
+        return new CarStatistics(allCars, avalibleCar, maintananceCar);
+    }
+
 }

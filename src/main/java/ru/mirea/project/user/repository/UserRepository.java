@@ -1,4 +1,3 @@
-
 package ru.mirea.project.user.repository;
 
 import ru.mirea.project.user.model.User;
@@ -18,8 +17,6 @@ public interface UserRepository {
     List<User> findAll();
 
     List<User> searchByName(String name);
-
-    List<User> sortByLastName();
 
     User update(User user);
 

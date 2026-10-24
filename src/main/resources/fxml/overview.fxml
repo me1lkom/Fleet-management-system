@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.mirea.project.fx.OverviewController"
+      spacing="10"
+      styleClass="overview-page"
+      stylesheets="@../css/app.css"
+>
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label text="Обзор автопарка" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button onAction="#handleRefreshStatistic" text="Обновить"/>
+    </HBox>
+    <GridPane
+        hgap="16" vgap="16"
+    >
+        <columnConstraints>
+            <ColumnConstraints percentWidth="33.333"/>
+            <ColumnConstraints percentWidth="33.333"/>
+            <ColumnConstraints percentWidth="33.333"/>
+        </columnConstraints>
+
+        <VBox styleClass="stat-card"
+              GridPane.columnIndex="0"
+              GridPane.rowIndex="0"
+              maxWidth="Infinity"
+              spacing="16">
+            <Label text="Всего автомобилей"/>
+            <Label styleClass="stat-value" fx:id="totalCarLabel" text="–"/>
+        </VBox>
+
+        <VBox styleClass="stat-card"
+              GridPane.columnIndex="1"
+              GridPane.rowIndex="0"
+              maxWidth="Infinity"
+              spacing="16">
+            <Label text="Доступно автомобилей"/>
+            <Label styleClass="stat-value" fx:id="availableCarLabel" text="–"/>
+        </VBox>
+
+        <VBox styleClass="stat-card"
+              GridPane.columnIndex="2"
+              GridPane.rowIndex="0"
+              maxWidth="Infinity"
+              spacing="16">
+            <Label text="На обслуживании"/>
+            <Label styleClass="stat-value" fx:id="maintenanceCarLabel" text="–"/>
+        </VBox>
+
+        <VBox styleClass="stat-card"
+              GridPane.columnIndex="0"
+              GridPane.rowIndex="1"
+              maxWidth="Infinity"
+              spacing="16">
+            <Label text="Всего пользователей"/>
+            <Label styleClass="stat-value" fx:id="totalUserLabel" text="–"/>
+        </VBox>
+
+        <VBox styleClass="stat-card"
+              GridPane.columnIndex="1"
+              GridPane.rowIndex="1"
+              maxWidth="Infinity"
+              spacing="16">
+            <Label text="Всего заявок"/>
+            <Label styleClass="stat-value" fx:id="totalRequestsLabel" text="–"/>
+        </VBox>
+
+        <VBox styleClass="stat-card"
+              GridPane.columnIndex="2"
+              GridPane.rowIndex="1"
+              maxWidth="Infinity"
+              spacing="16">
+            <Label text="Активные заявки"/>
+            <Label styleClass="stat-value" fx:id="activeRequestsLabel" text="–"/>
+        </VBox>
+    </GridPane>
+
+    <Label text="Экспорт"/>
+    <HBox spacing="12" alignment="CENTER_LEFT">
+        <Button fx:id="downloadCarsButton" onAction="#handleDownloadCars" text="Автомобили" />
+        <Button onAction="#handleDownloadUsers" text="Пользователи" />
+        <Button onAction="#handleDownloadRequests" text="Заявки" />
+    </HBox>
+</VBox>
+
