@@ -1,11 +1,197 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<StackPane
+<VBox
+        xmlns="http://javafx.com/javafx/21"
         xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="ru.mirea.project.user.controller.UserController"
->
-    <Label text="Раздел управления пользователями"/>
-</StackPane>
+        spacing="12"
+        styleClass="page">
+
+    <HBox alignment="CENTER_LEFT" spacing="12">
+
+        <VBox styleClass="title-container" spacing="6">
+            <Label
+                    text="Пользователи"
+                    styleClass="page-title"/>
+
+            <Label
+                    text="Управление клиентами автопарка"
+                    styleClass="under-title"/>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <HBox styleClass="crud-container" spacing="10">
+            <Button
+                    text="+ Добавить"
+                    onAction="#handleOpenAddForm"/>
+
+            <Button
+                    text="Изменить"
+                    onAction="#handleOpenEditForm"/>
+
+            <Button
+                    text="Удалить"
+                    onAction="#handleDelete"/>
+        </HBox>
+    </HBox>
+
+    <VBox
+            styleClass="functions"
+            spacing="14">
+
+        <HBox alignment="CENTER_LEFT">
+            <Label
+                    text="Поиск пользователей"
+                    styleClass="function-title"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button
+                    text="Обновить"
+                    onAction="#handleRefresh"/>
+        </HBox>
+
+        <HBox alignment="CENTER" spacing="10">
+
+            <ComboBox
+                    fx:id="searchFieldComboBox"
+                    prefWidth="195"
+                    minWidth="150"
+                    style="-fx-background-color: white;"/>
+
+            <TextField
+                    fx:id="searchTextField"
+                    promptText="Введите запрос..."
+                    HBox.hgrow="ALWAYS"
+                    maxWidth="Infinity"
+                    style="-fx-text-fill: #26364a; -fx-background-color: white;"/>
+
+            <Button
+                    text="Поиск"
+                    onAction="#handleSearch"/>
+        </HBox>
+
+        <Separator/>
+
+        <Label
+                text="Фильтры"
+                styleClass="function-title"/>
+
+        <HBox alignment="BOTTOM_LEFT" spacing="10">
+
+            <VBox
+                    HBox.hgrow="ALWAYS"
+                    spacing="6">
+
+                <Label
+                        text="Статус пользователя"
+                        styleClass="select-title"/>
+
+                <ComboBox
+                        fx:id="statusFilterComboBox"
+                        promptText="Все статусы"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: white;"/>
+            </VBox>
+
+            <VBox
+                    HBox.hgrow="ALWAYS"
+                    spacing="6">
+
+                <Label
+                        text="Водительское удостоверение"
+                        styleClass="select-title"/>
+
+                <ComboBox
+                        fx:id="licenseFilterComboBox"
+                        promptText="Все пользователи"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: white;"/>
+            </VBox>
+
+            <Button
+                    text="Применить"
+                    onAction="#handleApplyFilter"/>
+
+            <Button
+                    text="Сбросить"
+                    onAction="#handleResetFilter"/>
+        </HBox>
+    </VBox>
+
+    <VBox
+            styleClass="table-container"
+            spacing="12"
+            VBox.vgrow="ALWAYS">
+
+        <HBox alignment="CENTER_LEFT" spacing="12">
+
+            <Label
+                    text="Список пользователей"
+                    styleClass="table-title"/>
+
+            <Label
+                    fx:id="countLabel"
+                    text="Найдено: 0"
+                    styleClass="under-title"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button
+                    text="Экспорт CSV"
+                    onAction="#handleExportCsv"/>
+        </HBox>
+
+        <TableView
+                fx:id="usersTable"
+                VBox.vgrow="ALWAYS"
+                minHeight="180">
+
+            <columns>
+
+                <TableColumn
+                        fx:id="idColumn"
+                        text="ID"
+                        prefWidth="55"/>
+
+                <TableColumn
+                        fx:id="firstNameColumn"
+                        text="Имя"
+                        prefWidth="115"/>
+
+                <TableColumn
+                        fx:id="lastNameColumn"
+                        text="Фамилия"
+                        prefWidth="125"/>
+
+                <TableColumn
+                        fx:id="phoneColumn"
+                        text="Телефон"
+                        prefWidth="155"/>
+
+                <TableColumn
+                        fx:id="emailColumn"
+                        text="Email"
+                        prefWidth="175"/>
+
+                <TableColumn
+                        fx:id="driverLicenseColumn"
+                        text="Водительское удостоверение"
+                        prefWidth="180"/>
+
+                <TableColumn
+                        fx:id="statusColumn"
+                        text="Статус"
+                        prefWidth="95"/>
+
+            </columns>
+
+        </TableView>
+
+    </VBox>
+
+</VBox>
