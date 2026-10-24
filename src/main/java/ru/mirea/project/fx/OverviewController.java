@@ -9,6 +9,9 @@ import ru.mirea.project.car.exception.DataAccessException;
 import ru.mirea.project.car.exception.ExportException;
 import ru.mirea.project.car.repository.JdbcCarRepository;
 import ru.mirea.project.car.service.CarService;
+import ru.mirea.project.request.repository.JdbcRequestRepository;
+import ru.mirea.project.request.service.RequestService;
+import ru.mirea.project.user.repository.JdbcUserRepository;
 
 import java.io.File;
 
@@ -32,6 +35,8 @@ public class OverviewController {
 
     private final CarService carService =
             new CarService(new JdbcCarRepository());
+    private final RequestService requestService =
+            new RequestService(new JdbcRequestRepository(), new JdbcUserRepository(), new JdbcCarRepository());
 
     @FXML
     public void initialize() {
@@ -45,6 +50,10 @@ public class OverviewController {
             totalCarLabel.setText(String.valueOf(statistic.total()));
             availableCarLabel.setText(String.valueOf(statistic.avalible()));
             maintenanceCarLabel.setText(String.valueOf(statistic.maintanance()));
+
+            RequestService.RentalStatistics rental = requestService.statistics();
+            totalRequestsLabel.setText(String.valueOf(rental.total()));
+            activeRequestsLabel.setText(String.valueOf(rental.active()));
         } catch (DataAccessException e) {
             totalCarLabel.setText("—");
             availableCarLabel.setText("—");
@@ -103,6 +112,19 @@ public class OverviewController {
 
     @FXML
     private void handleDownloadRequests() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Сохранить заявки");
+        fileChooser.setInitialFileName("rentals.csv");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV файлы (*.csv)", "*.csv"));
 
+        File file = fileChooser.showSaveDialog(downloadCarsButton.getScene().getWindow());
+        if (file != null) {
+            try {
+                requestService.exportCsv(requestService.getAll(), file);
+                new Alert(Alert.AlertType.INFORMATION, "Файл успешно сохранён!").showAndWait();
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR, "Не удалось экспортировать заявки: " + e.getMessage()).showAndWait();
+            }
+        }
     }
 }
