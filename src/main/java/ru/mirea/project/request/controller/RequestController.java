@@ -66,11 +66,21 @@ public class RequestController {
     @FXML private void refreshTable() { show(service.getAll()); loadStats(); }
     @FXML private void handleSearch() { show(service.searchByNotes(searchTextField.getText() == null ? "" : searchTextField.getText())); }
     @FXML private void handleFilter() {
-        RequestStatus status = statusFilter.getValue();
-        String userText = userFilter.getText();
-        if (status != null) show(service.filterByStatus(status));
-        else if (userText != null && !userText.isBlank()) show(service.filterByUser(Long.parseLong(userText.trim())));
-        else refreshTable();
+        try {
+            RequestStatus status = statusFilter.getValue();
+            String userText = userFilter.getText();
+            if (status != null) {
+                show(service.filterByStatus(status));
+            } else if (userText != null && !userText.isBlank()) {
+                show(service.filterByUser(Long.parseLong(userText.trim())));
+            } else {
+                refreshTable();
+            }
+        } catch (NumberFormatException e) {
+            alert(Alert.AlertType.ERROR, "ID арендатора должен быть числом.");
+        } catch (Exception e) {
+            alert(Alert.AlertType.ERROR, "Не удалось применить фильтр.");
+        }
     }
     @FXML private void handleReset() { searchTextField.clear(); userFilter.clear(); statusFilter.setValue(null); refreshTable(); }
     @FXML private void sortDateAsc() { show(service.sortByStartDate(true)); }
@@ -94,8 +104,12 @@ public class RequestController {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Удалить заявку #" + selected.getId() + "?", ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = confirm.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.YES) {
-            service.delete(selected.getId());
-            refreshTable();
+            try {
+                service.delete(selected.getId());
+                refreshTable();
+            } catch (Exception e) {
+                alert(Alert.AlertType.ERROR, "Не удалось удалить заявку: " + e.getMessage());
+            }
         }
     }
 
@@ -107,8 +121,12 @@ public class RequestController {
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV", "*.csv"));
         File file = chooser.showSaveDialog(exportButton.getScene().getWindow());
         if (file != null) {
-            service.exportCsv(requestsTable.getItems(), file);
-            alert(Alert.AlertType.INFORMATION, "Файл сохранён: " + file.getName());
+            try {
+                service.exportCsv(requestsTable.getItems(), file);
+                alert(Alert.AlertType.INFORMATION, "Файл сохранён: " + file.getName());
+            } catch (Exception e) {
+                alert(Alert.AlertType.ERROR, "Не удалось экспортировать: " + e.getMessage());
+            }
         }
     }
 

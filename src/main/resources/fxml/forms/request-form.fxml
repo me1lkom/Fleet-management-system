@@ -4,10 +4,10 @@
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ru.mirea.project.request.controller.RequestFormController"
       spacing="8" style="-fx-padding: 16;">
-    <Label text="ID арендатора"/>
-    <TextField fx:id="userIdField" promptText="Например 1"/>
-    <Label text="ID автомобиля"/>
-    <TextField fx:id="carIdField" promptText="Например 1"/>
+    <Label text="Арендатор"/>
+    <ComboBox fx:id="userBox" promptText="Выберите арендатора" maxWidth="Infinity"/>
+    <Label text="Автомобиль"/>
+    <ComboBox fx:id="carBox" promptText="Выберите автомобиль" maxWidth="Infinity"/>
     <Label text="Дата начала (ГГГГ-ММ-ДД)"/>
     <TextField fx:id="startField" promptText="2026-10-01"/>
     <Label text="Дата окончания (минимум +30 дней)"/>
@@ -15,10 +15,10 @@
     <Label text="Цена в месяц"/>
     <TextField fx:id="priceField" promptText="45000"/>
     <Label text="Статус"/>
-    <ComboBox fx:id="statusBox" promptText="Статус"/>
+    <ComboBox fx:id="statusBox" promptText="Статус" maxWidth="Infinity"/>
     <Label text="Примечание"/>
     <TextArea fx:id="notesArea" prefRowCount="3"/>
-    <Label fx:id="errorLabel" style="-fx-text-fill: #b91c1c;"/>
+    <Label fx:id="errorLabel" wrapText="true" style="-fx-text-fill: #b91c1c;"/>
     <HBox spacing="10">
         <Button fx:id="submitButton" text="Сохранить" onAction="#handleSubmit"/>
         <Button fx:id="closeButton" text="Отмена" onAction="#handleClose"/>
