@@ -5,5 +5,16 @@ public enum RequestStatus {
     APPROVED,
     ACTIVE,
     COMPLETED,
-    CANCELLED
+    CANCELLED;
+
+    @Override
+    public String toString() {
+        return switch (this) {
+            case NEW -> "Новая";
+            case APPROVED -> "Одобрена";
+            case ACTIVE -> "Активна";
+            case COMPLETED -> "Завершена";
+            case CANCELLED -> "Отменена";
+        };
+    }
 }

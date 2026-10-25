@@ -89,7 +89,7 @@ public class CarFormController {
         if (brand.isBlank() || model.isBlank() ||
                 transmission == null || licensePlate.isBlank() ||
                 bodyType == null || carStatus == null) {
-            errorLabel.setText("Все поля обязательные.");
+            errorLabel.setText("Заполните обязательные поля, отмеченные *");
             return;
         }
 

@@ -12,6 +12,8 @@ import ru.mirea.project.car.service.CarService;
 import ru.mirea.project.request.repository.JdbcRequestRepository;
 import ru.mirea.project.request.service.RequestService;
 import ru.mirea.project.user.repository.JdbcUserRepository;
+import ru.mirea.project.user.service.UserService;
+import ru.mirea.project.user.exception.UserDataAccessException;
 
 import java.io.File;
 
@@ -37,6 +39,8 @@ public class OverviewController {
             new CarService(new JdbcCarRepository());
     private final RequestService requestService =
             new RequestService(new JdbcRequestRepository(), new JdbcUserRepository(), new JdbcCarRepository());
+    private final UserService userService =
+            new UserService(new JdbcUserRepository());
 
     @FXML
     public void initialize() {
@@ -54,10 +58,20 @@ public class OverviewController {
             RequestService.RentalStatistics rental = requestService.statistics();
             totalRequestsLabel.setText(String.valueOf(rental.total()));
             activeRequestsLabel.setText(String.valueOf(rental.active()));
+
+            totalUserLabel.setText(
+                    String.valueOf(userService.getAllUsers().size())
+            );
+
         } catch (DataAccessException e) {
             totalCarLabel.setText("—");
             availableCarLabel.setText("—");
             maintenanceCarLabel.setText("—");
+
+            totalRequestsLabel.setText("—");
+            activeRequestsLabel.setText("—");
+
+
 
             new Alert(
                     Alert.AlertType.ERROR,
@@ -107,7 +121,40 @@ public class OverviewController {
 
     @FXML
     private void handleDownloadUsers() {
+        FileChooser fileChooser = new FileChooser();
 
+        fileChooser.setTitle("Сохранить пользователей");
+        fileChooser.setInitialFileName("users.csv");
+
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("CSV файлы", "*.csv")
+        );
+
+        File file = fileChooser.showSaveDialog(
+                downloadCarsButton.getScene().getWindow()
+        );
+
+        if (file == null) {
+            return;
+        }
+
+        try {
+            userService.exportToCsv(
+                    userService.getAllUsers(),
+                    file.toPath()
+            );
+
+            new Alert(
+                    Alert.AlertType.INFORMATION,
+                    "Пользователи успешно экспортированы!"
+            ).showAndWait();
+
+        } catch (RuntimeException e) {
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Не удалось экспортировать пользователей: " + e.getMessage()
+            ).showAndWait();
+        }
     }
 
     @FXML

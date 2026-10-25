@@ -27,7 +27,6 @@
 }
 
 .text-field {
-    -fx-text-fill: white;
     -fx-background-radius: 8;
     -fx-padding: 10 16;
 }

@@ -6,9 +6,14 @@
 <VBox
         xmlns="http://javafx.com/javafx/17.0.12"
         xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="ru.mirea.project.car.controller.CarFormController">
+        fx:controller="ru.mirea.project.car.controller.CarFormController"
+        spacing="8"
+        style="-fx-padding: 16;"
+        prefWidth="500"
+>
     <Label
             text="Бренд"
+            styleClass="select-title"
     />
     <TextField
             fx:id="brandTextField"
@@ -17,6 +22,7 @@
 
     <Label
             text="Модель"
+            styleClass="select-title"
     />
     <TextField
             fx:id="modelTextField"
@@ -25,14 +31,17 @@
 
     <Label
             text="Трансмиссия"
+            styleClass="select-title"
     />
     <ComboBox
             fx:id="transmissionComboBox"
             promptText="Выберите трансмиссию..."
+            maxWidth="Infinity"
     />
 
     <Label
             text="Год"
+            styleClass="select-title"
     />
     <TextField
             fx:id="yearTextField"
@@ -41,6 +50,7 @@
 
     <Label
             text="Гос Номер"
+            styleClass="select-title"
     />
     <TextField
             fx:id="licensePlateTextField"
@@ -49,32 +59,41 @@
 
     <Label
             text="Тип кузова"
+            styleClass="select-title"
     />
     <ComboBox
             fx:id="bodyTypeComboBox"
             promptText="Выберите тип кузова..."
+            maxWidth="Infinity"
     />
 
     <Label
             text="Статус"
+            styleClass="select-title"
     />
     <ComboBox
             fx:id="carStatusComboBox"
             promptText="Выберите текущий статус..."
+            maxWidth="Infinity"
     />
 
 
     <Label
             text="Пробег"
+            styleClass="select-title"
     />
     <TextField
             fx:id="mileageTextField"
             promptText="Введите пробег..."
     />
 
-    <Label text="" fx:id="errorLabel"/>
+    <Label
+            text=""
+            fx:id="errorLabel"
+            style="-fx-text-fill: #b91c1c;"
+    />
 
-    <HBox>
+    <HBox spacing="10">
         <Button mnemonicParsing="false" fx:id="submitButton" text="Сохранить" onAction="#handleSubmitButton"/>
         <Button mnemonicParsing="false" fx:id="closeButton" text="Отмена" onAction="#handleClose"/>
     </HBox>
