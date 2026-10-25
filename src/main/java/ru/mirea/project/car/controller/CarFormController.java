@@ -77,13 +77,20 @@ public class CarFormController {
     private void handleSubmitButton() {
         String brand = brandTextField.getText();
         String model = modelTextField.getText();
+
         Transmission transmission = transmissionComboBox.getValue();
+
         Integer year = IntegerCheck("Неверный год", yearTextField.getText());
+
         if (year == null) return;
+
         String licensePlate = licensePlateTextField.getText();
+
         BodyType bodyType = bodyTypeComboBox.getValue();
         CarStatus carStatus = carStatusComboBox.getValue();
+
         Integer mileage = IntegerCheck("Неверный пробег", mileageTextField.getText());
+
         if (mileage == null) return;
 
         if (brand.isBlank() || model.isBlank() ||

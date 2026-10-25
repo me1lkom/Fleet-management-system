@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox
-        xmlns="http://javafx.com/javafx/17.0.12"
+        xmlns="http://javafx.com/javafx/21"
         xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="ru.mirea.project.car.controller.CarFormController"
         spacing="8"
@@ -12,7 +12,7 @@
         prefWidth="500"
 >
     <Label
-            text="Бренд"
+            text="Бренд*"
             styleClass="select-title"
     />
     <TextField
@@ -21,7 +21,7 @@
     />
 
     <Label
-            text="Модель"
+            text="Модель*"
             styleClass="select-title"
     />
     <TextField
@@ -30,7 +30,7 @@
     />
 
     <Label
-            text="Трансмиссия"
+            text="Трансмиссия*"
             styleClass="select-title"
     />
     <ComboBox
@@ -40,7 +40,7 @@
     />
 
     <Label
-            text="Год"
+            text="Год*"
             styleClass="select-title"
     />
     <TextField
@@ -49,7 +49,7 @@
     />
 
     <Label
-            text="Гос Номер"
+            text="Гос Номер*"
             styleClass="select-title"
     />
     <TextField
@@ -58,7 +58,7 @@
     />
 
     <Label
-            text="Тип кузова"
+            text="Тип кузова*"
             styleClass="select-title"
     />
     <ComboBox
@@ -68,7 +68,7 @@
     />
 
     <Label
-            text="Статус"
+            text="Статус*"
             styleClass="select-title"
     />
     <ComboBox
@@ -79,7 +79,7 @@
 
 
     <Label
-            text="Пробег"
+            text="Пробег*"
             styleClass="select-title"
     />
     <TextField
@@ -94,7 +94,7 @@
     />
 
     <HBox spacing="10">
-        <Button mnemonicParsing="false" fx:id="submitButton" text="Сохранить" onAction="#handleSubmitButton"/>
-        <Button mnemonicParsing="false" fx:id="closeButton" text="Отмена" onAction="#handleClose"/>
+        <Button fx:id="submitButton" text="Сохранить" onAction="#handleSubmitButton"/>
+        <Button fx:id="closeButton" text="Отмена" onAction="#handleClose"/>
     </HBox>
 </VBox>

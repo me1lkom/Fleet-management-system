@@ -71,7 +71,7 @@ public class OverviewController {
             totalRequestsLabel.setText("—");
             activeRequestsLabel.setText("—");
 
-
+            totalUserLabel.setText("—");
 
             new Alert(
                     Alert.AlertType.ERROR,

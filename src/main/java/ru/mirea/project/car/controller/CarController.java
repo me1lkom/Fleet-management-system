@@ -326,8 +326,7 @@ public class CarController {
     }
 
     private void updateRows(List<Car> cars) {
-        ObservableList<Car> rows =
-                FXCollections.observableArrayList(cars);
+        ObservableList<Car> rows = FXCollections.observableArrayList(cars);
         carsTable.setItems(rows);
     }
 

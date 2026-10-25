@@ -22,9 +22,9 @@
         <Region HBox.hgrow="ALWAYS"/>
 
         <HBox styleClass="crud-container" spacing="10">
-            <Button mnemonicParsing="false" text="+Добавить" onAction="#handleOpenAddForm"/>
-            <Button mnemonicParsing="false" text="Изменить" onAction="#handleOpenChangeForm"/>
-            <Button mnemonicParsing="false" text="Удалить" onAction="#handleDelete"/>
+            <Button text="+Добавить" onAction="#handleOpenAddForm"/>
+            <Button text="Изменить" onAction="#handleOpenChangeForm"/>
+            <Button text="Удалить" onAction="#handleDelete"/>
         </HBox>
 
     </HBox>
@@ -35,7 +35,7 @@
 
                 <Region HBox.hgrow="ALWAYS"/>
 
-                <Button mnemonicParsing="false" text="Обновить" onAction="#refreshTable"/>
+                <Button text="Обновить" onAction="#refreshTable"/>
             </HBox>
 
             <GridPane hgap="10">
